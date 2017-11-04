@@ -2,7 +2,7 @@ from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import time
 
 
-def customCallback(client, userdata, message):
+def turnOn(client, userdata, message):
     print("Received a new message: ")
     print(message.payload)
     print("from topic: ")
@@ -11,7 +11,9 @@ def customCallback(client, userdata, message):
 
 
 
-myMQTTClient = AWSIoTMQTTClient("1234")
+
+clientid = '61b3d4a3-efec-468c-b175-d3f0a872678c'
+myMQTTClient = AWSIoTMQTTClient(clientid)
 # For Websocket connection
 # myMQTTClient = AWSIoTMQTTClient("myClientID", useWebsocket=True)
 # Configurations
@@ -32,7 +34,7 @@ myMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 
 myMQTTClient.connect()
 #myMQTTClient.publish("myTopic", "myPayload", 0)
-myMQTTClient.subscribe("turnon/1", 1, customCallback)
+myMQTTClient.subscribe("turnon/#", 1, turnOn)
 #myMQTTClient.unsubscribe("myTopic")
 #myMQTTClient.disconnect()
 
