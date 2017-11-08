@@ -12,18 +12,12 @@ def turnOn(client, userdata, message):
 
 
 
-clientid = '61b3d4a3-efec-468c-b175-d3f0a872678c'
+#clientid = '61b3d4a3-efec-468c-b175-d3f0a872678c'
+clientid = 'test123'
+
 myMQTTClient = AWSIoTMQTTClient(clientid)
-# For Websocket connection
-# myMQTTClient = AWSIoTMQTTClient("myClientID", useWebsocket=True)
-# Configurations
-# For TLS mutual authentication
 myMQTTClient.configureEndpoint("afkx1f9takwol.iot.us-east-1.amazonaws.com", 8883)
-# For Websocket
-# myMQTTClient.configureEndpoint("YOUR.ENDPOINT", 443)
 myMQTTClient.configureCredentials("certs/root.pem", "certs/private.pem.key", "certs/certificate.pem.crt")
-# For Websocket, we only need to configure the root CA
-# myMQTTClient.configureCredentials("YOUR/ROOT/CA/PATH")
 myMQTTClient.configureOfflinePublishQueueing(-1)  # Infinite offline Publish queueing
 myMQTTClient.configureDrainingFrequency(2)  # Draining: 2 Hz
 myMQTTClient.configureConnectDisconnectTimeout(10)  # 10 sec
@@ -33,8 +27,9 @@ myMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 
 
 myMQTTClient.connect()
+myMQTTClient.subscribe("turnon/" + clientid, 1, turnOn)
+
 #myMQTTClient.publish("myTopic", "myPayload", 0)
-myMQTTClient.subscribe("turnon/#", 1, turnOn)
 #myMQTTClient.unsubscribe("myTopic")
 #myMQTTClient.disconnect()
 
