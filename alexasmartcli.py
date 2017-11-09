@@ -3,6 +3,7 @@ import json
 import requests
 import getpass
 import prefHelper
+import config
 
 def _parse_options():
     """
@@ -61,4 +62,28 @@ if args[0] == 'register':
     if not prefHelper.loggedIn():
         print('Error: please log in before registering device.')
     else:
-        print("test")
+        print("Registering device...")
+        payload ={"name": config.device_name, "tvs": 1}
+        if prefHelper.deviceRegistered():
+            payload['uuid'] = prefHelper.deviceUUID()
+            
+        headers = {'content-type': 'application/json', 'jwt': prefHelper.deviceToken()}
+        
+        response = requests.post('https://alexasmarttv.tk/api/v1/register_device', data=json.dumps(payload), headers=headers, verify=False) #verify is not working WTF
+        json_data = json.loads(response.text)
+        if 'error' in json_data:
+            print(json_data['error']['message'])
+        else:
+            file = open('.auth/uuid','w')
+            file.write(json_data['uuid'])
+            file.close
+            
+            file = open('.auth/private.pem.key','w')
+            file.write(json_data['private_key'])
+            file.close
+            
+            file = open('.auth/certificate.pem.crt','w')
+            file.write(json_data['pubic_certificate'])
+            file.close
+            
+            print("device successfully registered.")
