@@ -2,7 +2,7 @@ from optparse import OptionParser
 import json
 import requests
 import getpass
-import prefHelper
+import helpers.prefHelper
 import config
 import re
 
@@ -13,28 +13,6 @@ def _parse_options():
     """
     try:
         parser = OptionParser(usage='%prog [Options]', version='1.0',)
-        parser.add_option(
-            '-l', '--location',
-            dest='location',
-            help='Location of the new server folder'
-            )
-
-        parser.add_option(
-            '-s', '--snapshot',
-            action="store_true",
-            default=False,
-            dest='snapshot',
-            help='Whether the server should download a snapshot'
-        )
-
-        parser.add_option(
-            '', '--start',
-            dest='start',
-            action="store_true",
-            default=False,
-            help='Start the server once its created'
-        )
-
         options, args = parser.parse_args()
         return options, args
     except Exception as e:
@@ -43,6 +21,10 @@ def _parse_options():
 
 
 options, args = _parse_options()
+if len(args) == 0:
+    print('please specify an action')
+    exit()
+    
 if args[0] == 'login':
     print("Login to your alexasmarttv.tk account")
     email = input("Email: ")
@@ -65,7 +47,7 @@ if args[0] == 'register':
         print('Error: please log in before registering device.')
     else:
         print("Registering device...")
-        payload ={"name": config.device_name, "tvs": 1}
+        payload ={"name": config.device_name, "tvs": len(config.tvs)}
         reregister = False
         if prefHelper.deviceRegistered():
             payload['uuid'] = prefHelper.deviceUUID()
@@ -149,7 +131,7 @@ if args[0] == 'setup_cable':
                  
     sortedlist = sorted(lineup.values(), key=lambda x: (int(x[2]) if x[2] is not None else int(x[3])))
    
-    file = open('lineup.txt','w')
+    file = open('helpers/lineup.txt','w')
    
     for value in sortedlist:
         file.write(str(value) + '\n')
