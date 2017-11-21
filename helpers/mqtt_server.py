@@ -1,11 +1,11 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import time
-from pywakeonlan import send_magic_packet
+from helpers.pywakeonlan import send_magic_packet
 import samsungctl
-from alexasmarttv import config
+import config
 import json
 import requests
-import prefHelper
+from helpers import prefHelper
 
 remote_config = {
     "name": "samsungctl",
@@ -27,10 +27,10 @@ def printmsg(message):
     
 def turnOn(client, userdata, message):
     printmsg(message)
-    send_magic_packet(config.tvs[0]['tv_mac_address'])
-    time.sleep(3)
-    with samsungctl.Remote(remote_config) as remote:
-        remote.control("KEY_RETURN")  #get rid of the on menu when you turn the tv on
+    #send_magic_packet(config.tvs[0]['tv_mac_address'])
+    #time.sleep(3)
+    #with samsungctl.Remote(remote_config) as remote:
+    #    remote.control("KEY_RETURN")  #get rid of the on menu when you turn the tv on
 
 
 def turnOff(client, userdata, message):
@@ -47,7 +47,6 @@ def mute(client, userdata, message):
 
 
 
-
 def startServer():
     clientid = prefHelper.deviceUUID()
 
@@ -60,9 +59,10 @@ def startServer():
     myMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
     
     myMQTTClient.connect()
+    
     myMQTTClient.subscribe("turnon/" + clientid, 1, turnOn)
-    myMQTTClient.subscribe("turnoff/" + clientid, 1, turnOff)
-    myMQTTClient.subscribe("mute/" + clientid, 1, mute)
+    #myMQTTClient.subscribe("turnoff/" + clientid, 1, turnOff)
+    #myMQTTClient.subscribe("mute/" + clientid, 1, mute)
 
     #myMQTTClient.publish("myTopic", "myPayload", 0)
     #myMQTTClient.unsubscribe("myTopic")
@@ -74,7 +74,7 @@ def startServer():
         if counter == 0:
             payload ={"uuid": prefHelper.deviceUUID()}
             headers = {'content-type': 'application/json', 'jwt': prefHelper.deviceToken()}
-            response = requests.post('https://alexasmarttv.tk/api/v1/ping', data=json.dumps(payload), headers=headers, verify=False)
+            response = requests.post('https://alexasmarttv.tk/api/v1/ping', data=json.dumps(payload), headers=headers)
             
         counter += 1
         counter = counter%900

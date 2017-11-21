@@ -2,10 +2,10 @@ from optparse import OptionParser
 import json
 import requests
 import getpass
-import helpers.prefHelper
+from  helpers import prefHelper
 import config
 import re
-
+from  helpers import mqtt_server
 
 def _parse_options():
     """
@@ -31,7 +31,7 @@ if args[0] == 'login':
     password = getpass.getpass(prompt='Password: ')
     payload ={"email": email, "password": password}
     headers = {'content-type': 'application/json'}
-    response = requests.post('https://alexasmarttv.tk/api/v1/login', data=json.dumps(payload), headers=headers, verify=False) #verify is not working WTF
+    response = requests.post('https://alexasmarttv.tk/api/v1/login', data=json.dumps(payload), headers=headers)
     json_data = json.loads(response.text)
     if 'error' in json_data:
         print(json_data['error']['message'])
@@ -55,7 +55,7 @@ if args[0] == 'register':
             
         headers = {'content-type': 'application/json', 'jwt': prefHelper.deviceToken()}
         
-        response = requests.post('https://alexasmarttv.tk/api/v1/register_device', data=json.dumps(payload), headers=headers, verify=False) #verify is not working WTF
+        response = requests.post('https://alexasmarttv.tk/api/v1/register_device', data=json.dumps(payload), headers=headers)
         json_data = json.loads(response.text)
         if 'error' in json_data:
             print(json_data['error']['message'])
@@ -137,3 +137,8 @@ if args[0] == 'setup_cable':
         file.write(str(value) + '\n')
     file.close
     print("Successfully downloaded channel listings")
+
+
+
+if args[0] == 'start':
+   mqtt_server.startServer()
