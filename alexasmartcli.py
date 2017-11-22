@@ -3,9 +3,10 @@ import json
 import requests
 import getpass
 from  helpers import prefHelper
-import config
+import tvconfig
 import re
 from  helpers import mqtt_server
+import os
 
 def _parse_options():
     """
@@ -42,12 +43,20 @@ if args[0] == 'login':
         print("User successfully logged in.")
         
         
+if args[0] == 'reset':
+    os.remove('.auth/uuid')
+    os.remove('.auth/token')
+    os.remove('.auth/private.pem.key')
+    os.remove('.auth/certificate.pem.crt')
+    print("Reset device. you will now need to relogin and register this device")
+    
+        
 if args[0] == 'register':
     if not prefHelper.loggedIn():
         print('Error: please log in before registering device.')
     else:
         print("Registering device...")
-        payload ={"name": config.device_name, "tvs": len(config.tvs)}
+        payload ={"name": tvconfig.device_name, "tvs": len(tvconfig.tvs)}
         reregister = False
         if prefHelper.deviceRegistered():
             payload['uuid'] = prefHelper.deviceUUID()
@@ -95,28 +104,31 @@ if args[0] == 'setup_cable':
     lineup = {}
     for channel in json.loads(response.text):
         full = channel["Channel"]["FullName"]
+        
         regex = re.compile('\(.+?\)')
         full = regex.sub('', full).lower()
         full = full.replace('&','and')
+        full = full.replace('the ', '')
+        full = full.replace(' channel', '')
+
 
         pattern = re.compile('([^\s\w]|_)+')
         full = pattern.sub('', full)
-
+        
         name = channel["Channel"]["Name"].lower()
         name = pattern.sub('', name)
-
         num = channel["Channel"]["Number"] 
 
         if " hdtv" in full or " hd" in full:
             full = full.replace(' hdtv','')
             full = full.replace(' hd','')
             full = full.strip()
+            
             if name.endswith("hd"):
                 name = name[:-2]
             elif name.endswith("d"):
                 name = name[:-1]
             name = name.strip()
-            
             if full in lineup and lineup[full][3] == None:
                 lineup[full] = (lineup[full][0],lineup[full][1],lineup[full][2],num)
             elif full not in lineup:
@@ -128,17 +140,23 @@ if args[0] == 'setup_cable':
                 lineup[full] = (lineup[full][0],lineup[full][1],num,lineup[full][3])
             elif full not in lineup:
                 lineup[full] = (name,full,num,None)
-                 
     sortedlist = sorted(lineup.values(), key=lambda x: (int(x[2]) if x[2] is not None else int(x[3])))
    
-    file = open('helpers/lineup.txt','w')
-   
-    for value in sortedlist:
-        file.write(str(value) + '\n')
-    file.close
+    with open('helpers/lineup.json', 'w') as outfile:
+        json.dump(sortedlist, outfile)
+    #for value in sortedlist:
+    #file.write(json.dumps(sortedlist))
+    #file.close
     print("Successfully downloaded channel listings")
 
 
 
 if args[0] == 'start':
-   mqtt_server.startServer()
+    if not prefHelper.loggedIn():
+        print('Error: please log in before starting server.')
+    else:
+        mqtt_server.startServer()
+        
+        
+        
+                
