@@ -8,6 +8,7 @@ import re
 from  helpers import mqtt_server
 import os
 
+url = "https://alexasmarttv.tk"
 def _parse_options():
     """
     Parse the command line arguments for script
@@ -32,7 +33,7 @@ if args[0] == 'login':
     password = getpass.getpass(prompt='Password: ')
     payload ={"email": email, "password": password}
     headers = {'content-type': 'application/json'}
-    response = requests.post('https://alexasmarttv.tk/api/v1/login', data=json.dumps(payload), headers=headers)
+    response = requests.post(url + '/api/v1/login', data=json.dumps(payload), headers=headers)
     json_data = json.loads(response.text)
     if 'error' in json_data:
         print(json_data['error']['message'])
@@ -56,7 +57,11 @@ if args[0] == 'register':
         print('Error: please log in before registering device.')
     else:
         print("Registering device...")
-        payload ={"name": tvconfig.device_name, "tvs": len(tvconfig.tvs)}
+        tvs = []
+        for tv in tvconfig.tvs:
+            tvs.append({'name':tv['tv_name'], 'mac_address': tv['tv_mac_address']})
+            
+        payload ={"name": tvconfig.device_name, "tvs": tvs}
         reregister = False
         if prefHelper.deviceRegistered():
             payload['uuid'] = prefHelper.deviceUUID()
@@ -64,7 +69,7 @@ if args[0] == 'register':
             
         headers = {'content-type': 'application/json', 'jwt': prefHelper.deviceToken()}
         
-        response = requests.post('https://alexasmarttv.tk/api/v1/register_device', data=json.dumps(payload), headers=headers)
+        response = requests.post(url + '/api/v1/register_device', data=json.dumps(payload), headers=headers)
         json_data = json.loads(response.text)
         if 'error' in json_data:
             print(json_data['error']['message'])
