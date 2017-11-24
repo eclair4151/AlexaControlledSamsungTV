@@ -10,18 +10,21 @@ import math
 from difflib import get_close_matches
 
 
-remote_config = {
+
+def get_config(tv_mac_address):
+    return {
     "name": "samsungctl",
     "description": "PC",
     "id": "",
-    "host": tvconfig.tvs[0]['host'],
-    "port": tvconfig.tvs[0]['port'],
-    "method": tvconfig.tvs[0]['method'],
+    "host": tv_dict[tv_mac_address]['host'],
+    "port": tv_dict[tv_mac_address]['port'],
+    "method": tv_dict[tv_mac_address]['method'],
     "timeout": 0,
 }
-
+    
 tv_listings_dict = {}
 tv_channels = []
+tv_dict = {}
 
 def printmsg(message):
     print("\n\nReceived a new message: ")
@@ -34,14 +37,14 @@ def printmsg(message):
 def power(client, userdata, message):
     printmsg(message)
     payload = json.loads(message.payload.decode('utf-8'))
-
+    remote_config = get_config(payload['endpointid'])
     try:
-        if payload['operation'] == 'turnOn':
-            send_magic_packet(tvconfig.tvs[0]['tv_mac_address'])
+        if payload['operation'] == 'TurnOn':
+            send_magic_packet(payload['endpointid'])
             time.sleep(3)
             with samsungctl.Remote(remote_config) as remote:
                 remote.control("KEY_RETURN")  #get rid of the on menu when you turn the tv on
-        elif payload['operation'] == 'turnOff':
+        elif payload['operation'] == 'TurnOff':
             with samsungctl.Remote(remote_config) as remote:
                 remote.control("KEY_POWER") 
     except:
@@ -53,6 +56,8 @@ def power(client, userdata, message):
 def channel(client, userdata, message):
     printmsg(message)
     payload = json.loads(message.payload.decode('utf-8'))
+    remote_config = get_config(payload['endpointid'])
+
     try:
         if payload['operation'] == 'ChangeChannel':
             if 'number' in payload['channel_data']['channel']:
@@ -104,6 +109,7 @@ def channel(client, userdata, message):
 def speaker(client, userdata, message):
     printmsg(message)
     payload = json.loads(message.payload.decode('utf-8'))
+    remote_config = get_config(payload['endpointid'])
 
     try:
         if payload['operation'] == 'SetMute':
@@ -128,6 +134,7 @@ def speaker(client, userdata, message):
 def playback(client, userdata, message):
     printmsg(message)
     payload = json.loads(message.payload.decode('utf-8'))
+    remote_config = get_config(payload['endpointid'])
 
     try:
         if payload['operation'] == 'Pause' or payload['operation'] == 'Stop':
@@ -147,6 +154,7 @@ def startServer():
     
     global tv_listings_dict
     global tv_channels
+    global tv_dict
 
     with open('helpers/lineup.json') as json_data:
         tv_json = json.load(json_data)
@@ -156,7 +164,8 @@ def startServer():
             tv_listings_dict[chan[0]] = chan
             tv_listings_dict[chan[1]] = chan
 
-    
+    for tv in tvconfig.tvs:
+        tv_dict[tv['tv_mac_address']] = tv
     
     clientid = prefHelper.deviceUUID()
     myMQTTClient = AWSIoTMQTTClient(clientid)
