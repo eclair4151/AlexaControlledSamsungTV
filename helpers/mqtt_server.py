@@ -64,7 +64,7 @@ def channel(client, userdata, message):
                 with samsungctl.Remote(remote_config) as remote:
                     for c in payload['channel_data']['channel']['number']:
                         remote.control("KEY_" + str(c))
-                        time.sleep(0.25)
+                        time.sleep(0.05)
                     remote.control("KEY_ENTER")
                     
             else: 
@@ -81,15 +81,15 @@ def channel(client, userdata, message):
                     if len(res) > 0:
                         chan = tv_listings_dict[res[0]]
                         num = ""
-                        if chan[3] != None and tvconfig.prefer_HD:
+                        if chan[3] != None and tv_dict[payload['endpointid']]['prefer_HD']:
                             num = str(chan[3])
                         else:
                             num = str(chan[2])
                         print(channel_name + ':   closest match - ' + res[0] + '     -  ' + str(num))
-                        for c in payload['channel']['number']:
+                        for c in num:
                             remote.control("KEY_" + str(c))
-                            time.sleep(0.25)
-                        remote.control("KEY_ENTER") 
+                            time.sleep(0.05)
+                        remote.control("KEY_RETURN")
                         
                     
         elif payload['operation'] == 'SkipChannels':
@@ -147,13 +147,22 @@ def playback(client, userdata, message):
         print("Failed to send message to TV")
 
 
-# def test_command():
-#     global tv_listings_dict
-#     global tv_channels
-#     global tv_dict
-#     for tv in tvconfig.tvs:
-#         tv_dict[tv['tv_mac_address']] = tv
-#     speaker('','','')
+def test_command():
+    global tv_listings_dict
+    global tv_channels
+    global tv_dict
+    for tv in tvconfig.tvs:
+        tv_dict[tv['tv_mac_address']] = tv
+
+    with open('helpers/lineup.json') as json_data:
+        tv_json = json.load(json_data)
+        for chan in tv_json:
+            tv_channels.append(chan[0])
+            tv_channels.append(chan[1])
+            tv_listings_dict[chan[0]] = chan
+            tv_listings_dict[chan[1]] = chan
+
+    channel('','','')
 
 
 def startServer():
@@ -169,6 +178,16 @@ def startServer():
             tv_channels.append(chan[1])
             tv_listings_dict[chan[0]] = chan
             tv_listings_dict[chan[1]] = chan
+
+
+    if 'wpvi' in tv_channels:
+        tv_channels.append('abc')
+        tv_listings_dict['abc'] = tv_listings_dict['wpvi']
+
+    if 'wtxf' in tv_channels:
+        tv_channels.append('fox')
+        tv_listings_dict['fox'] = tv_listings_dict['wtxf']
+
 
     for tv in tvconfig.tvs:
         tv_dict[tv['tv_mac_address']] = tv
