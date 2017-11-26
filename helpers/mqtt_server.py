@@ -95,12 +95,12 @@ def channel(client, userdata, message):
         elif payload['operation'] == 'SkipChannels':
             steps = payload['channelCount']
             chandown = steps < 0
-            steps = math.fabs(steps)
+            steps = abs(steps)
             
             for i in range(0,steps):
                 with samsungctl.Remote(remote_config) as remote:
                     remote.control("KEY_CHDOWN" if chandown else "KEY_CHUP") 
-                    time.sleep(0.25) #delay for volume 
+                    time.sleep(0.05) #delay for volume
     except:
         print("Failed to send message to TV")
 
@@ -118,15 +118,15 @@ def speaker(client, userdata, message):
         elif payload['operation'] == 'AdjustVolume':
             steps = payload['volumeSteps']
             voldown = steps < 0
-            steps = math.fabs(steps)
+            steps = abs(steps)
             
             if steps == 1:
                 steps = tvconfig.volume_step_size
-            
-            for i in range(0,steps):
-                with samsungctl.Remote(remote_config) as remote:
-                    remote.control("KEY_VOLDOWN" if voldown else "KEY_VOLUP") 
-                    time.sleep(0.25) #delay for volume
+
+            with samsungctl.Remote(remote_config) as remote:
+                for i in range(0,steps):
+                    remote.control("KEY_VOLDOWN" if voldown else "KEY_VOLUP")
+                    time.sleep(0.05) #delay for volume
     except:
         print("Failed to send message to TV")
         
@@ -147,7 +147,13 @@ def playback(client, userdata, message):
         print("Failed to send message to TV")
 
 
-
+# def test_command():
+#     global tv_listings_dict
+#     global tv_channels
+#     global tv_dict
+#     for tv in tvconfig.tvs:
+#         tv_dict[tv['tv_mac_address']] = tv
+#     speaker('','','')
 
 
 def startServer():
