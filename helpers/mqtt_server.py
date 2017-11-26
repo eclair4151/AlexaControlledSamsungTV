@@ -89,7 +89,7 @@ def channel(client, userdata, message):
                         for c in num:
                             remote.control("KEY_" + str(c))
                             time.sleep(0.05)
-                        remote.control("KEY_RETURN")
+                        remote.control("KEY_ENTER")
                         
                     
         elif payload['operation'] == 'SkipChannels':
