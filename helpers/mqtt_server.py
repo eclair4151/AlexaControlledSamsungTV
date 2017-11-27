@@ -218,7 +218,10 @@ def startServer():
         if counter == 0:
             payload ={"uuid": prefHelper.deviceUUID()}
             headers = {'content-type': 'application/json', 'jwt': prefHelper.deviceToken()}
-            response = requests.post('https://alexasmarttv.tk/api/v1/ping', data=json.dumps(payload), headers=headers)
-            
+            try:
+                response = requests.post('https://alexasmarttv.tk/api/v1/ping', data=json.dumps(payload), headers=headers)
+            except:
+                print('failed to ping')
+
         counter += 1
         counter = counter%900
