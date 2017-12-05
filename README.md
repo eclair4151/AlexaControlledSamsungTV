@@ -2,7 +2,7 @@ to run you will need Python3 with the following pip packages installed
 
 
 samsungctl    
-websocket-client-py3     
+websocket-client     
 AWSIoTPythonSDK
 
 to setup. first you will need an online account. create one at alexasmarttv.tk
