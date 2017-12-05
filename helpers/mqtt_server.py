@@ -11,16 +11,37 @@ from difflib import get_close_matches
 
 
 
+def power_off_command(tv_mac_address):
+    if tv_dict[tv_mac_address]['model'][4].upper <= 'F':
+        return 'KEY_POWEROFF'
+        
+    elif tv_dict[tv_mac_address]['model'][4].upper >= 'K':
+        return 'KEY_POWER'
+        
+    return ''
+
 def get_config(tv_mac_address):
+    
+    port = 0
+    method = ''
+    if tv_dict[tv_mac_address]['model'][4].upper <= 'F':
+        port = 55000
+        method = 'legacy'
+    elif tv_dict[tv_mac_address]['model'][4].upper >= 'K':
+        port = 8001
+        method = 'websocket'
+        
+        
     return {
-    "name": "samsungctl",
-    "description": "PC",
-    "id": "",
-    "host": tv_dict[tv_mac_address]['host'],
-    "port": tv_dict[tv_mac_address]['port'],
-    "method": tv_dict[tv_mac_address]['method'],
-    "timeout": 0,
-}
+        "name": "samsungctl",
+        "description": "PC",
+        "id": "",
+        "host": tv_dict[tv_mac_address]['host'],
+        "port": port,
+        "method": method,
+        "timeout": 0,
+    }
+    
     
 tv_listings_dict = {}
 tv_channels = []
@@ -46,10 +67,8 @@ def power(client, userdata, message):
                 remote.control("KEY_RETURN")  #get rid of the on menu when you turn the tv on
         elif payload['operation'] == 'TurnOff':
             with samsungctl.Remote(remote_config) as remote:
-                if tv_dict[payload['endpointid']]['legacy_power_off']:
-                    remote.control("KEY_POWEROFF")
-                else:
-                    remote.control("KEY_POWER")
+                remote.control(power_off_command(payload['endpointid']))
+                
 
     except:
         print("Failed to send message to TV")
