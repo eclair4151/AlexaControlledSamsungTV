@@ -12,10 +12,10 @@ from difflib import get_close_matches
 
 
 def power_off_command(tv_mac_address):
-    if tv_dict[tv_mac_address]['model'][4].upper <= 'F':
+    if tv_dict[tv_mac_address]['model'][4] <= 'F':
         return 'KEY_POWEROFF'
         
-    elif tv_dict[tv_mac_address]['model'][4].upper >= 'K':
+    elif tv_dict[tv_mac_address]['model'][4] >= 'K':
         return 'KEY_POWER'
         
     return ''
@@ -24,10 +24,10 @@ def get_config(tv_mac_address):
     
     port = 0
     method = ''
-    if tv_dict[tv_mac_address]['model'][4].upper <= 'F':
+    if tv_dict[tv_mac_address]['model'][4] <= 'F':
         port = 55000
         method = 'legacy'
-    elif tv_dict[tv_mac_address]['model'][4].upper >= 'K':
+    elif tv_dict[tv_mac_address]['model'][4] >= 'K':
         port = 8001
         method = 'websocket'
         
