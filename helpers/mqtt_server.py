@@ -46,7 +46,11 @@ def power(client, userdata, message):
                 remote.control("KEY_RETURN")  #get rid of the on menu when you turn the tv on
         elif payload['operation'] == 'TurnOff':
             with samsungctl.Remote(remote_config) as remote:
-                remote.control("KEY_POWER") 
+                if tv_dict[payload['endpointid']]['legacy_power_off']:
+                    remote.control("KEY_POWEROFF")
+                else:
+                    remote.control("KEY_POWER")
+
     except:
         print("Failed to send message to TV")
 

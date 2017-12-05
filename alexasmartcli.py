@@ -7,6 +7,7 @@ import tvconfig
 import re
 from  helpers import mqtt_server
 import os
+from helpers.ssdp import scan_network_ssdp
 
 url = "https://alexasmarttv.tk"
 def _parse_options():
@@ -23,6 +24,7 @@ def _parse_options():
 
 
 options, args = _parse_options()
+
 if len(args) == 0:
     print('please specify an action')
     exit()
@@ -42,8 +44,14 @@ if args[0] == 'login':
         file.write(json_data['jwt'])
         file.close
         print("User successfully logged in.")
-        
-        
+
+
+if args[0] == 'scan':
+    print('Scanning for TVs. make sure they are turned on and on the same network')
+    tvs = scan_network_ssdp(True, wait=2)
+    if len(tvs) == 0:
+        print('No TVs found')
+
 if args[0] == 'reset':
     os.remove('.auth/uuid')
     os.remove('.auth/token')
@@ -161,7 +169,5 @@ if args[0] == 'start':
         print('Error: please log in before starting server.')
     else:
         mqtt_server.startServer()
-        
-        
-        
-                
+
+
