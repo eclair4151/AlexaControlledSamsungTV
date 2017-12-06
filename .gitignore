@@ -1,0 +1,6 @@
+.auth/certificate.pem.crt
+.auth/private.pem.key
+.auth/token
+.auth/uuid
+helpers/lineup.json
+*__pycache__*
