@@ -10,7 +10,6 @@ import math
 from difflib import get_close_matches
 
 
-
 def power_off_command(tv_mac_address):
     if tv_dict[tv_mac_address]['tv_model'][4] <= 'F':
         return 'KEY_POWEROFF'
@@ -39,7 +38,7 @@ def get_config(tv_mac_address):
         "host": tv_dict[tv_mac_address]['host'],
         "port": port,
         "method": method,
-        "timeout": 0,
+        "timeout": 2,
     }
     
     
@@ -68,10 +67,10 @@ def power(client, userdata, message):
         elif payload['operation'] == 'TurnOff':
             with samsungctl.Remote(remote_config) as remote:
                 remote.control(power_off_command(payload['endpointid']))
-                
 
-    except:
-        print("Failed to send message to TV")
+
+    except BaseException as e:
+        print("Failed to send message to TV: " + str(e))
 
    
    
@@ -124,8 +123,8 @@ def channel(client, userdata, message):
                 with samsungctl.Remote(remote_config) as remote:
                     remote.control("KEY_CHDOWN" if chandown else "KEY_CHUP") 
                     time.sleep(0.05) #delay for volume
-    except:
-        print("Failed to send message to TV")
+    except BaseException as e:
+        print("Failed to send message to TV: " + str(e))
 
 
 
@@ -150,8 +149,8 @@ def speaker(client, userdata, message):
                 for i in range(0,steps):
                     remote.control("KEY_VOLDOWN" if voldown else "KEY_VOLUP")
                     time.sleep(0.05) #delay for volume
-    except:
-        print("Failed to send message to TV")
+    except BaseException as e:
+        print("Failed to send message to TV: " + str(e))
         
 
 def playback(client, userdata, message):
@@ -165,9 +164,9 @@ def playback(client, userdata, message):
                 remote.control("KEY_PAUSE")
         elif payload['operation'] == 'Play':
             with samsungctl.Remote(remote_config) as remote:
-                remote.control("KEY_PLAY") 
-    except:
-        print("Failed to send message to TV")
+                remote.control("KEY_PLAY")
+    except BaseException as e:
+        print("Failed to send message to TV: " + str(e))
 
 
 def test_command():
@@ -185,7 +184,7 @@ def test_command():
             tv_listings_dict[chan[0]] = chan
             tv_listings_dict[chan[1]] = chan
 
-    channel('','','')
+    power('','',{'endpointid':'68:27:37:4c:6b:1e', 'operation':'TurnOff'})
 
 
 def startServer():
