@@ -7,7 +7,14 @@ AWSIoTPythonSDK
 
 to setup. first you will need an online account. create one at alexasmarttv.tk
 
-then run the following commands to get up and running
+Then turn on your TV and run the following commands to get up and running
+
+```
+python3 alexasmartcli.py scan
+```
+
+It should output the ip, mac address, and model.    
+put those into the tvconfig.py file and then run:
 
 ```
 python3 alexasmartcli.py login
@@ -16,7 +23,7 @@ python3 alexasmartcli.py setup_cable
 python3 alexasmartcli.py start
 ```
 
-Then just install the alexa smart skill, discover devices and you will be on your way.
+Then just install the alexa smart skill (Unofficial Samsung SmartTV Controller), discover devices and you will be on your way.
 
 Currently supports the following commands:
 * Alexa turn on the TV    (Only supported on K,M, and QLED TVS (2016 and newer))
