@@ -24,6 +24,13 @@ python3 alexasmartcli.py start
 ```
 
 Then just install the alexa smart skill (Unofficial Samsung SmartTV Controller), discover devices and you will be on your way.
+<br>
+<br>
+Link to alexa skill: https://www.amazon.com/dp/B07886XNK8
+<br>
+<br>
+Tutorial:<br>
+[![Alexa Setup Tutorial](https://img.youtube.com/vi/-uhd33FiEUM/0.jpg)](https://www.youtube.com/watch?v=-uhd33FiEUM)
 
 Currently supports the following commands:
 * Alexa turn on the TV    (Only supported on K,M, and QLED TVS (2016 and newer))
