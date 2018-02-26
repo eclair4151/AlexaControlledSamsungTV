@@ -1,3 +1,4 @@
 samsungctl==0.7.0
 websocket_client==0.44.0
 AWSIoTPythonSDK==1.2.0
+requests

@@ -8,6 +8,7 @@ import requests
 from helpers import prefHelper
 import math
 from difflib import get_close_matches
+import os.path
 
 
 
@@ -177,6 +178,7 @@ def test_command():
     for tv in tvconfig.tvs:
         tv_dict[tv['tv_mac_address']] = tv
 
+
     with open('helpers/lineup.json') as json_data:
         tv_json = json.load(json_data)
         for chan in tv_json:
@@ -193,15 +195,17 @@ def startServer():
     global tv_listings_dict
     global tv_channels
     global tv_dict
-
-    with open('helpers/lineup.json') as json_data:
-        tv_json = json.load(json_data)
-        for chan in tv_json:
-            tv_channels.append(chan[0])
-            tv_channels.append(chan[1])
-            tv_listings_dict[chan[0]] = chan
-            tv_listings_dict[chan[1]] = chan
-
+    if os.path.isfile('helpers/lineup.json'):
+        with open('helpers/lineup.json') as json_data:
+            tv_json = json.load(json_data)
+            for chan in tv_json:
+                tv_channels.append(chan[0])
+                tv_channels.append(chan[1])
+                tv_listings_dict[chan[0]] = chan
+                tv_listings_dict[chan[1]] = chan
+    else:
+        tv_channels = []
+        tv_listings_dict = {}
 
     if 'wpvi' in tv_channels:
         tv_channels.append('abc')
