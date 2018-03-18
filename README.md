@@ -19,8 +19,13 @@ put those into the tvconfig.py file and then run:
 ```
 python3 alexasmartcli.py login
 python3 alexasmartcli.py register
-python3 alexasmartcli.py setup_cable
-python3 alexasmartcli.py start
+python3 alexasmartcli.py setup_cable (optional and only currently works in the US)
+python3 alexasmartcli.py start (run with -m to mute the output)
+```
+
+to run this server in the backround automatically when your pi boots up place this line in your /etc/rc.local file:
+```
+python3 /PATH/TO/FOLDER/alexasmartcli.py start -m &
 ```
 
 Then just install the alexa smart skill (Unofficial Samsung SmartTV Controller), discover devices and you will be on your way.
@@ -43,6 +48,13 @@ Currently supports the following commands:
 * Alexa change the channel to ESPN on the TV
 
 * Alexa Play/Pause/Stop the TV
+
+Troubleshooting:    
+if nothing seems to happen these are some steps you can take to debug:
+
+* start the server without the -m option and ask alexa to mute the tv. If nothing appears in the output there was an error linking the alexa skill. This can happen if you reregister a pi but dont relogin to you account in the device linking. go the the alexa app, disable this skill and reenable to correctly link them  
+
+* if the command appears in the output but doesnt control the tv your tvconfig file is incorrect. make sure you have put the correct IP address and model number. You can also try running the [Samsungctl](https://github.com/Ape/samsungctl) library directly to make sure you have the correct settings
 
 
 Disclaimer:
