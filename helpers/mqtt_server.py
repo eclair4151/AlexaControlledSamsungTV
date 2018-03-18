@@ -46,13 +46,15 @@ def get_config(tv_mac_address):
 tv_listings_dict = {}
 tv_channels = []
 tv_dict = {}
+mute = False
 
 def printmsg(message):
-    print("\n\nReceived a new message: ")
-    print(message.payload)
-    print("from topic: ")
-    print(message.topic)
-    print("--------------")
+    if not mute:
+        print("\n\nReceived a new message: ")
+        print(message.payload)
+        print("from topic: ")
+        print(message.topic)
+        print("--------------")
     
     
 def power(client, userdata, message):
@@ -189,11 +191,14 @@ def test_command():
     power('','',{'endpointid':'68:27:37:4c:6b:1e', 'operation':'TurnOff'})
 
 
-def startServer():
+def startServer(muteoutput):
     
     global tv_listings_dict
     global tv_channels
     global tv_dict
+    global mute
+
+    mute = muteoutput
     if os.path.isfile('helpers/lineup.json'):
         with open('helpers/lineup.json') as json_data:
             tv_json = json.load(json_data)

@@ -16,6 +16,8 @@ def _parse_options():
     """
     try:
         parser = OptionParser(usage='%prog [Options]', version='1.0',)
+        parser.add_option("-m", "--mute", action="store_true", dest="mute")
+
         options, args = parser.parse_args()
         return options, args
     except Exception as e:
@@ -24,6 +26,10 @@ def _parse_options():
 
 
 options, args = _parse_options()
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 if len(args) == 0:
     print('please specify an action')
@@ -172,6 +178,6 @@ if args[0] == 'start':
     if not prefHelper.loggedIn():
         print('Error: please log in before starting server.')
     else:
-        mqtt_server.startServer()
+        mqtt_server.startServer(options.mute)
 
 
