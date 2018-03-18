@@ -23,7 +23,7 @@ python3 alexasmartcli.py setup_cable (optional and only currently works in the U
 python3 alexasmartcli.py start (run with -m to mute the output)
 ```
 
-to run this server in the backround automatically when your pi boots up place this line in your /etc/rc.local file:
+to run this server in the backround automatically when your pi boots up place this line in your /etc/rc.local file (before the exit line):
 ```
 python3 /PATH/TO/FOLDER/alexasmartcli.py start -m &
 ```
