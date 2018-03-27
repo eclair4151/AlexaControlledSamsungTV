@@ -17,11 +17,36 @@ python3 alexasmartcli.py scan
 ```
 
 It should output the ip, mac address, and model.    
-put those into the tvconfig.py file and then run:
+put those into the tvconfig.py file. The tvconfig should be in this format: 
+```
+device_name = "Home Raspberry PI" #What shows up under devices in alexasmarttv.tk. not that important unless you have multiple devices (not tvs) on your account
+volume_step_size = 10  #how much your tv volume should go up by when you say 'Alexa, turn up the volume on my tv'
+
+
+tvs = [
+    {
+        'host': ".....", #ip address of tv
+        'tv_model' : '....',
+        'tv_mac_address': "....",
+        'tv_name' : 'TV', #Leave as TV to refrence this by just 'TV'. ex: 'Alexa, turn on the TV'.  Change to eg:'Kitchen TV' if you want to say 'Alexa turn on the kitchen TV', You cannot have multiple tvs have the same name
+        'prefer_HD': True, #if you say 'change the channel to ESPN',  always attempt to use the HD channel number'
+    },
+    {
+      #TV2....
+    },
+    {
+       #TV3.... 
+    }
+    
+]
+```
+
+
+Then run:
 
 ```
 python3 alexasmartcli.py login
-python3 alexasmartcli.py register
+python3 alexasmartcli.py register (you will need to run this command anytime you change/add/remove a tv from tvconfig)
 python3 alexasmartcli.py setup_cable (optional and only currently works in the US)
 python3 alexasmartcli.py start (run with -m to mute the output)
 ```
@@ -31,7 +56,7 @@ to run this server in the backround automatically when your pi boots up place th
 python3 /PATH/TO/FOLDER/alexasmartcli.py start -m &
 ```
 
-Then just install the alexa smart skill (Unofficial Samsung SmartTV Controller), discover devices and you will be on your way.
+Then just install the Alexa smart skill (Unofficial Samsung SmartTV Controller), discover devices and you will be on your way.
 <br>
 <br>
 Link to alexa skill: https://www.amazon.com/dp/B07886XNK8
@@ -64,7 +89,7 @@ but if your tv provider/zipcode isnt on there you can still set it up manually:
 [
   ["espn", "espn", "2", "502"], 
    ["dsc", "discovery", "120", "620"], 
-   ["fs1", "fox sports 1", "83", "583"],
+   ["fs1", "fox sports one", "83", "583"],
   ... 
 ]
 ```
@@ -74,8 +99,10 @@ The 3rd is the nonhd channel num
 The 4th is the hd channel num. 
 
 you can leave any the items that don’t apply empty/set to 0
-in many cases like ESPN the channel id and full name will be the same
-
+in many cases like ESPN the channel id and full name will be the same<br>
+It is also important to note that that the channel id and name are completely arbitrary and can be named anything you want 
+to, to tell alexa to change the channel, Eg: alexa change the channel to unicorn on my tv.<br><br>
+Just note that in the full channel name to use spelled out numbers if it applies, Eg: Fox Sports One NOT Fox Sports 1
 
 
 ## Troubleshooting:    
@@ -85,6 +112,7 @@ if nothing seems to happen these are some steps you can take to debug:
 
 * if the command appears in the output but doesnt control the tv your tvconfig file is incorrect. make sure you have put the correct IP address and model number. You can also try running the [Samsungctl](https://github.com/Ape/samsungctl) library directly to make sure you have the correct settings
 
+* if discovering TVs through the Alexa app does not discover the tvs correctly try running python3 alexasmartcli.py register and restarting the server. Then try to rediscover your tvs.
 
 ## Disclaimer:
 1) H and J series TVs are currently unsupported but are being worked on to support it
