@@ -89,8 +89,8 @@ but if your tv provider/zipcode isnt on there you can still set it up manually:
 [
   ["espn", "espn", "2", "502"], 
    ["dsc", "discovery", "120", "620"], 
-   ["fs1", "fox sports one", "83", "583"],
-  ... 
+   ... 
+   ["fs1", "fox sports one", "83", "583"]
 ]
 ```
 The first item the channel id like dsc or hgtv. 
