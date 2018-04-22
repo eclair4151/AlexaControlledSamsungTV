@@ -145,7 +145,7 @@ def speaker(client, userdata, message):
             voldown = steps < 0
             steps = abs(steps)
             
-            if steps == 1:
+            if steps == 10:
                 steps = tvconfig.volume_step_size
 
             with samsungctl.Remote(remote_config) as remote:
