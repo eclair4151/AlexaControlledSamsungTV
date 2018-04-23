@@ -98,8 +98,8 @@ The 2nd is the full channel name,
 The 3rd is the nonhd channel num 
 The 4th is the hd channel num. 
 
-you can leave any the items that don’t apply empty/set to 0
-in many cases like ESPN the channel id and full name will be the same<br>
+You can leave any the items that don’t apply empty/set to 0<br>
+In many cases like ESPN the channel id and full name will be the same<br>
 It is also important to note that that the channel id and name are completely arbitrary and can be named anything you want 
 to, to tell alexa to change the channel, Eg: alexa change the channel to unicorn on my tv.<br><br>
 Just note that in the full channel name to use spelled out numbers if it applies, Eg: Fox Sports One NOT Fox Sports 1
