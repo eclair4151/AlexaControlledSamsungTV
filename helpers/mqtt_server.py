@@ -35,7 +35,7 @@ def get_config(tv_mac_address):
     return {
         "name": "samsungctl",
         "description": "PC",
-        "id": "",
+        "id": "11",
         "host": tv_dict[tv_mac_address]['host'],
         "port": port,
         "method": method,
