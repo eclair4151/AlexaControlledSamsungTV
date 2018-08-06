@@ -53,7 +53,7 @@ python3 alexasmartcli.py start (run with -m to mute the output)
 
 to run this server in the backround automatically when your pi boots up place this line in your /etc/rc.local file (before the exit line):
 ```
-python3 /PATH/TO/FOLDER/alexasmartcli.py start -m &
+python3 /PATH/TO/FOLDER/alexasmartcli.py start -m &&
 ```
 
 Then just install the Alexa smart skill (Unofficial Samsung SmartTV Controller), discover devices and you will be on your way.
