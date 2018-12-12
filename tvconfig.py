@@ -4,7 +4,7 @@ volume_step_size = 10  #how much your tv volume should go up by when you say 'Al
 
 tvs = [
     {
-        'host': "192.168.1.244", #ip address of tv
+        'host': "192.168.2.111", #ip address of tv
         'tv_model' : 'UN65MU630D',
         'tv_mac_address': "68:27:37:4c:6b:1e",
         'tv_name' : 'TV', #Leave as TV to refrence this by just 'TV'. ex: 'Alexa, turn on the TV'.  Change to eg:'Kitchen TV' if you want to say 'Alexa turn on the kitchen TV', You cannot have multiple tvs have the same name

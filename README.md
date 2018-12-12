@@ -1,7 +1,5 @@
 ## WARNING. As of 10/25/18 Samsung has pushed a firmware upgrade to many TVs that disables the websocket api that this program uses. 
-## We are currently working on reverse engineering the new api, but in the mean time this program will not work as intended
-## This issue affects you if you are seeing the following error: Failed to send message to TV: Invalid close opcode.
-
+## The fix has been issued. all you need to do is go into the directly you cloned this repo and run git pull, and restart the server
 
 ## To run you will need Python3 with the following pip packages installed
 

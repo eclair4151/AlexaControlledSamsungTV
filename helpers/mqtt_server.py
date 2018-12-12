@@ -1,7 +1,7 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import time
 from helpers.pywakeonlan import send_magic_packet
-import samsungctl
+import samsungctl_ts
 import tvconfig
 import json
 import requests
@@ -24,21 +24,33 @@ def get_config(tv_mac_address):
     
     port = 0
     method = ''
-    if tv_dict[tv_mac_address]['tv_model'][4] <= 'F':
-        port = 55000
-        method = 'legacy'
-    elif tv_dict[tv_mac_address]['tv_model'][4] >= 'K':
-        port = 8001
-        method = 'websocket'
-        
-        
+    if 'port' not in tv_dict[tv_mac_address] or 'method' not in tv_dict[tv_mac_address]:
+        if tv_dict[tv_mac_address]['tv_model'][4] <= 'F':
+            port = tv_dict[tv_mac_address]['port'] = 55000
+            method = tv_dict[tv_mac_address]['method'] = 'legacy'
+        elif tv_dict[tv_mac_address]['tv_model'][4] >= 'K':
+            method = tv_dict[tv_mac_address]['method'] = 'websocket'
+            try:
+                tv_info = requests.get("http://" + tv_dict[tv_mac_address]['host'] + ":8001/api/v2/").json()
+                if 'device' in tv_info and 'TokenAuthSupport' in tv_info['device'] and tv_info['device']['TokenAuthSupport']:
+                    port = tv_dict[tv_mac_address]['port'] = 8002
+                else:
+                    port = tv_dict[tv_mac_address]['port'] = 8001
+            except requests.exceptions.RequestException as e:  # This is the correct syntax
+                # something went wrong. just assume it supports 8002
+                port = tv_dict[tv_mac_address]['port'] = 8001
+    else:
+        port = tv_dict[tv_mac_address]['port']
+        method = tv_dict[tv_mac_address]['method']
+
     return {
         "name": "samsungctl",
         "description": "PC",
         "id": "11",
         "host": tv_dict[tv_mac_address]['host'],
+        "mac_address": tv_mac_address,
         "port": port,
-        "method": method,
+        "method":  method,
         "timeout": 2,
     }
     
@@ -65,10 +77,10 @@ def power(client, userdata, message):
         if payload['operation'] == 'TurnOn':
             send_magic_packet(payload['endpointid'])
             time.sleep(3)
-            with samsungctl.Remote(remote_config) as remote:
+            with samsungctl_ts.Remote(remote_config) as remote:
                 remote.control("KEY_RETURN")  #get rid of the on menu when you turn the tv on
         elif payload['operation'] == 'TurnOff':
-            with samsungctl.Remote(remote_config) as remote:
+            with samsungctl_ts.Remote(remote_config) as remote:
                 remote.control(power_off_command(payload['endpointid']))
 
 
@@ -86,7 +98,7 @@ def channel(client, userdata, message):
     try:
         if payload['operation'] == 'ChangeChannel':
             if 'number' in payload['channel_data']['channel']:
-                with samsungctl.Remote(remote_config) as remote:
+                with samsungctl_ts.Remote(remote_config) as remote:
                     for c in payload['channel_data']['channel']['number']:
                         remote.control("KEY_" + str(c))
                         time.sleep(0.05)
@@ -101,7 +113,7 @@ def channel(client, userdata, message):
                 elif 'channelMetadata' in payload['channel_data'] and 'name' in payload['channel_data']['channelMetadata']:
                     channel_name = payload['channel_data']['channelMetadata']['name']
 
-                with samsungctl.Remote(remote_config) as remote:
+                with samsungctl_ts.Remote(remote_config) as remote:
                     res = get_close_matches(channel_name.lower().replace('&','and').replace('the ','').replace(' channel',''), tv_channels)
                     if len(res) > 0:
                         chan = tv_listings_dict[res[0]]
@@ -123,7 +135,7 @@ def channel(client, userdata, message):
             steps = abs(steps)
             
             for i in range(0,steps):
-                with samsungctl.Remote(remote_config) as remote:
+                with samsungctl_ts.Remote(remote_config) as remote:
                     remote.control("KEY_CHDOWN" if chandown else "KEY_CHUP") 
                     time.sleep(0.05) #delay for volume
     except BaseException as e:
@@ -138,7 +150,7 @@ def speaker(client, userdata, message):
 
     try:
         if payload['operation'] == 'SetMute':
-            with samsungctl.Remote(remote_config) as remote:
+            with samsungctl_ts.Remote(remote_config) as remote:
                 remote.control("KEY_MUTE") 
         elif payload['operation'] == 'AdjustVolume':
             steps = payload['volumeSteps']
@@ -148,7 +160,7 @@ def speaker(client, userdata, message):
             if steps == 10:
                 steps = tvconfig.volume_step_size
 
-            with samsungctl.Remote(remote_config) as remote:
+            with samsungctl_ts.Remote(remote_config) as remote:
                 for i in range(0,steps):
                     remote.control("KEY_VOLDOWN" if voldown else "KEY_VOLUP")
                     time.sleep(0.05) #delay for volume
@@ -163,10 +175,10 @@ def playback(client, userdata, message):
 
     try:
         if payload['operation'] == 'Pause' or payload['operation'] == 'Stop':
-            with samsungctl.Remote(remote_config) as remote:
+            with samsungctl_ts.Remote(remote_config) as remote:
                 remote.control("KEY_PAUSE")
         elif payload['operation'] == 'Play':
-            with samsungctl.Remote(remote_config) as remote:
+            with samsungctl_ts.Remote(remote_config) as remote:
                 remote.control("KEY_PLAY")
     except BaseException as e:
         print("Failed to send message to TV: " + str(e))

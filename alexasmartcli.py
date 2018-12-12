@@ -48,7 +48,7 @@ if args[0] == 'login':
     else:
         file = open('.auth/token','w')
         file.write(json_data['jwt'])
-        file.close
+        file.close()
         print("User successfully logged in.")
 
 
