@@ -1,12 +1,11 @@
 ## WARNING. As of 10/25/18 Samsung has pushed a firmware upgrade to many TVs that disables the websocket api that this program uses. 
-## The fix has been issued. all you need to do is go into the directly you cloned this repo and run git pull, and restart the server
+## The fix has been issued. You will need to go into the directory you cloned this repo in and run git pull. Then restart the server
 
 ## To run you will need Python3 with the following pip packages installed
-
-
-samsungctl    
-websocket-client     
-AWSIoTPythonSDK
+ 
+websocket-client<br>     
+AWSIoTPythonSDK<br>     
+requests
 
 ## Setup
 
