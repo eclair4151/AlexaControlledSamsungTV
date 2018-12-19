@@ -1,6 +1,3 @@
-## WARNING. As of 10/25/18 Samsung has pushed a firmware upgrade to many TVs that disables the websocket api that this program uses. 
-## The fix has been issued. You will need to go into the directory you cloned this repo in and run git pull. Then restart the server
-
 ## To run you will need Python3 with the following pip packages installed
  
 websocket-client<br>     
@@ -9,7 +6,7 @@ requests
 
 ## Setup
 
-First you will need an online account. Create one at alexasmarttv.tk
+First you will need an online account. Create one at https://alexasmarttv.tk
 Then clone this project onto your raspberryPi
 
 Then turn on your TV and run the following commands to get up and running
