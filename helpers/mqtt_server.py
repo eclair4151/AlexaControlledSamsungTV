@@ -101,7 +101,7 @@ def channel(client, userdata, message):
                 with samsungctl_ts.Remote(remote_config) as remote:
                     for c in payload['channel_data']['channel']['number']:
                         remote.control("KEY_" + str(c))
-                        time.sleep(0.05)
+                        time.sleep(0.7)
                     remote.control("KEY_ENTER")
                     
             else: 
@@ -125,7 +125,7 @@ def channel(client, userdata, message):
                         print(channel_name + ':   closest match - ' + res[0] + '     -  ' + str(num))
                         for c in num:
                             remote.control("KEY_" + str(c))
-                            time.sleep(0.05)
+                            time.sleep(0.7)
                         remote.control("KEY_ENTER")
                         
                     
@@ -137,7 +137,7 @@ def channel(client, userdata, message):
             for i in range(0,steps):
                 with samsungctl_ts.Remote(remote_config) as remote:
                     remote.control("KEY_CHDOWN" if chandown else "KEY_CHUP") 
-                    time.sleep(0.05) #delay for volume
+                    time.sleep(0.7) #delay for volume
     except BaseException as e:
         print("Failed to send message to TV: " + str(e))
 
