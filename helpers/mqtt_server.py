@@ -38,7 +38,7 @@ def get_config(tv_mac_address):
                     port = tv_dict[tv_mac_address]['port'] = 8001
             except requests.exceptions.RequestException as e:  # This is the correct syntax
                 # something went wrong. just assume it supports 8002
-                port = tv_dict[tv_mac_address]['port'] = 8001
+                port = tv_dict[tv_mac_address]['port'] = 8002
     else:
         port = tv_dict[tv_mac_address]['port']
         method = tv_dict[tv_mac_address]['method']
