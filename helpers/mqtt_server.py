@@ -262,7 +262,7 @@ def startServer(muteoutput):
             payload ={"uuid": prefHelper.deviceUUID()}
             headers = {'content-type': 'application/json', 'jwt': prefHelper.deviceToken()}
             try:
-                response = requests.post('https://alexasmarttv.tk/api/v1/ping', data=json.dumps(payload), headers=headers)
+                response = requests.post('https://alexasmarttv.dev/api/v1/ping', data=json.dumps(payload), headers=headers)
             except:
                 print('failed to ping')
 
