@@ -1,6 +1,3 @@
-## WARNING. As of 10/25/18 Samsung has pushed a firmware upgrade to many TVs that disables the websocket api that this program uses. 
-## The fix has been issued. You will need to go into the directory you cloned this repo in and run git pull. Then restart the server
-
 ## To run you will need Python3 with the following pip packages installed
  
 websocket-client<br>     
@@ -9,7 +6,7 @@ requests
 
 ## Setup
 
-First you will need an online account. Create one at alexasmarttv.tk
+First you will need an online account. Create one at https://alexasmarttv.tk
 Then clone this project onto your raspberryPi
 
 Then turn on your TV and run the following commands to get up and running
@@ -115,6 +112,18 @@ if nothing seems to happen these are some steps you can take to debug:
 * if the command appears in the output but doesnt control the tv your tvconfig file is incorrect. make sure you have put the correct IP address and model number. You can also try running the [Samsungctl](https://github.com/Ape/samsungctl) library directly to make sure you have the correct settings
 
 * if discovering TVs through the Alexa app does not discover the tvs correctly try running python3 alexasmartcli.py register and restarting the server. Then try to rediscover your tvs.
+
+* if when starting the server you get the following error
+```
+File "/usr/lib/python3.5/socket.py", line 733, in getaddrinfo
+for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+```
+This is a known issue of the Mqtt library i use<br>
+https://github.com/aws/aws-iot-device-sdk-python/issues/192<br>
+The fix is to set the DNS provider of your raspi to 8.8.8.8, 8.8.4.4<br>
+https://pimylifeup.com/raspberry-pi-dns-settings/
+
 
 ## Disclaimer:
 1) H and J series TVs are currently unsupported but are being worked on to support it
