@@ -6,7 +6,7 @@ requests
 
 ## Setup
 
-First you will need an online account. Create one at https://alexasmarttv.tk
+First you will need an online account. Create one at https://alexasmarttv.dev
 Then clone this project onto your raspberryPi
 
 Then turn on your TV and run the following commands to get up and running
@@ -18,7 +18,7 @@ python3 alexasmartcli.py scan
 It should output the ip, mac address, and model.    
 put those into the tvconfig.py file. The tvconfig should be in this format: 
 ```
-device_name = "Home Raspberry PI" #What shows up under devices in alexasmarttv.tk. not that important unless you have multiple devices (not tvs) on your account
+device_name = "Home Raspberry PI" #What shows up under devices in alexasmarttv.dev. not that important unless you have multiple devices (not tvs) on your account
 volume_step_size = 10  #how much your tv volume should go up by when you say 'Alexa, turn up the volume on my tv'
 
 
