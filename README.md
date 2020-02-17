@@ -1,3 +1,6 @@
+## Connecting your Samsung Smart TV to Alexa
+This tool allows you to connect your Samsung Smart TV to alexa, by using a rasberry pi. To see a full writeup of how this works see: https://drive.google.com/open?id=1uSn3TrIsmUn8I4OfTDpgXExMafl71EGzi0hFydTTWWo
+
 ## To run you will need Python3 with the following pip packages installed
  
 websocket-client<br>     
