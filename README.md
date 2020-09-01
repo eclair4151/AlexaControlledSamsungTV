@@ -129,7 +129,7 @@ https://pimylifeup.com/raspberry-pi-dns-settings/
 
 
 ## Disclaimer:
-1) H and J series TVs are currently unsupported but are being worked on to support it
+1) H and J series TVs are currently unsupported but are being worked on to support it. There is an experimental fork to add support if you would like to give it a try: https://github.com/bencarlisle15/AlexaControlledSamsungTV
 
 2) If you have a cable box, in order to change the channel the alexa sends a command to the smart remote which sends it back to the cable box over RF. Because of this for the command 'alexa change the channel' to work the remote needs to have line of sight with the cable box
 
