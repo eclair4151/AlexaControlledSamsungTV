@@ -1,3 +1,10 @@
+# Amazon has stopped providing AWS credits to offset the cost of running Alexa Services. As such, this project has been deprecated/archived and servers shut down.
+## The backend code and lambda calls have also been published to allow anyone to host this on thier own, but most of the code is outdated by now, and you can achieve the same result with Home Assistant.
+https://www.zdnet.com/article/amazon-plans-to-stop-giving-free-aws-credits-and-paying-developers-to-make-alexa-apps/
+<br /><br /><br /><br /><br /><br />
+     
+# Original documentation for this service is listed below
+# The instructions below will no longer work, as most of the code in the project is not set up to use a self hosted domain or lambda function. As such a fair amount of work would be needed to correctly link every thing back together if you actually wanted to self host this such as setting up AWS IoT cert permissions, redirecting all lambda calls and api references in the code to point to your own, etc. 
 ## Connecting your Samsung Smart TV to Alexa
 This tool allows you to connect your Samsung Smart TV to alexa, by using a rasberry pi. To see a full writeup of how this works see: https://drive.google.com/open?id=1uSn3TrIsmUn8I4OfTDpgXExMafl71EGzi0hFydTTWWo
 
