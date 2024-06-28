@@ -1,0 +1,38 @@
+<h1>Devices</h1>
+<br>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>TVs connected</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <form method="post">
+      <input type="hidden" name="_method" value="delete">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+        <% @devices.each_with_index do |device, index| %>
+          <tr>
+            <td style="max-width: 120px;"><%= device.uuid %></td>
+            <td><%= device.name %></td>
+            <td><%= device.tvs.size.to_s %></td>
+            <td>
+              <div id=<%= (((Time.now() - device.last_pinged)/60).floor <= 15)? 'circle_green':'circle_red'  %> ></div>&nbsp;&nbsp;&nbsp;Seen online <%= ((Time.now() - device.last_pinged)/60).floor  %> min ago
+            
+            </td>
+            <td>
+              
+            <button type="submit" class="delete_device_button btn-xs btn-danger" id='delete_submit' name="id" value="<%= device.uuid %>">X</button>
+            
+            </td>
+            
+          </tr>
+        <% end %>
+    </form>  
+  </tbody>
+</table>
+

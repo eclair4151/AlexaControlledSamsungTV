@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alexa Smart TV</title>
+  <%= csrf_meta_tags %>
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body class="page-color">
+  <div class="panel panel-default container-color horizontal-center" style="margin-top: 20px; width:90%">
+    <nav id="navigationBar" class="navbar navbar-default navbar-static-top">
+      <div class="">
+        <div class="navbar-head">
+          <div class="navbar-brand">
+            <p class="base-color" style="font-size: 1.5em;">
+              <b></b>
+            </p>
+          </div>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              DEVICES
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/tutorial">
+              TUTORIAL
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">
+              PROFILE
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              LOGOUT
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="inner-yield">
+      <p id="error"  style="color:red"><%= flash[:error] %></p>
+      <p id="message"  style="color:green"><%= flash[:message] %></p>
+      <%= yield %>
+
+    </div>
+  </div>
+   <center><div style="color: white;">©shemeshapps. All rights reserved.  <a href='/privacy' style="color:#4286f4">Privacy Policy</a> </div></center>
+</body>
+</html>

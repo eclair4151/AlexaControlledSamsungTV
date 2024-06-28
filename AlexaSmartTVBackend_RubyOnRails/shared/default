@@ -1,0 +1,47 @@
+upstream AlexaSmartTVBackend {
+  server unix:///home/ubuntu/AlexaSmartTVBackend/shared/sockets/puma.sock;
+}
+
+server {
+       listen 80;
+       rewrite ^(.*) https://$host$1 permanent;
+ }
+ 
+# for redirecting to non-www version of the site
+server {
+    listen  80;
+    server_name  www.alexasmarttv.tk;
+    rewrite ^(.*) http://alexasmarttv.tk$1 permanent;
+}
+
+
+server {
+  listen 443 default ssl;
+  server_name alexasmarttv.tk; # change to your live domain
+  root /home/ubuntu/AlexaSmartTVBackend/public;
+
+  ssl on;
+
+  ssl_certificate /home/ubuntu/AlexaSmartTVBackend/certificates/development-cert.pem;
+  ssl_certificate_key /home/ubuntu/AlexaSmartTVBackend/certificates/development-key.pem;
+
+  ssl_session_timeout  5m;
+
+  ssl_protocols  SSLv2 SSLv3 TLSv1;
+  ssl_ciphers  HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers   on;
+
+  try_files $uri/index.html $uri @AlexaSmartTVBackend;
+  location @AlexaSmartTVBackend {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_redirect off;
+    proxy_pass http://AlexaSmartTVBackend;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+}
+

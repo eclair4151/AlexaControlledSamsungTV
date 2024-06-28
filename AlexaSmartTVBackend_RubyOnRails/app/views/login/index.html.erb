@@ -1,0 +1,24 @@
+<div class="container page-color">
+  <div class="base-color">
+    <h1>
+      ALEXA SMART TV
+    </h1>
+  </div>
+  <div class="panel panel-default container-color col-sm-6 col-sm-offset-3" style="margin-top: 20px">
+    <form name="loginForm" action="/login" class="panel-body panel-container" method="post">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <div class="form-group" style="margin: 15px">
+        <label for="usr">Email:</label>
+        <input type="email" class="form-control" id="usr" name="email" required>
+      </div>
+      <div class="form-group" style="margin: 15px">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-default base-color" style="float:right; margin:15px;">LOGIN</button>
+      <p id="error"  style="color:red"><%= flash[:error] %></p>
+      <a href="/create_account">Create An Account</a><br>
+      <a href="/forgot_password">Forgot your password?</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/-uhd33FiEUM" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
+<p>
+    Steps:
+   <ul>
+  <li>Create an account here (I assume you already have one)</li>
+  <li>On your raspbery pi run the following inside any directory</li>
+    <ol>
+    <li>git clone https://github.com/eclair4151/AlexaControlledSamsungTV</li>
+    <li>cd AlexaControlledSamsungTV</li>
+    <li>pip3 install -r requirements.txt</li>
+    <li>python3 alexasmartcli.py scan</li>
+    </ol> 
+  
+  <li>Copy the ip address, model, and mac address into the tvconfig.py file</li>
+  <li>Rename the TV to want you want to call it and change prefer HD to False if you dont have hd cable</li>
+  <li>then run the following commands</li>
+  <ol>
+  <li>python3 alexasmartcli.py login</li>
+  <li>python3 alexasmartcli.py register</li>
+  <li>python3 alexasmartcli.py setup_cable (optional and only currently works in the US)</li>
+  <li>python3 alexasmartcli.py start (run with -m to mute the output)</li>
+  </ol>
+  <li>to run this automatically on boot edit /etc/rc.local and add this line before exit: 
+   <br> python3 /PATH/TO/FOLDER/alexasmartcli.py start -m &&</li>
+  <li>you should now be all setup. Go on your alexa app to the 'Smart Home' section. Search for unonfficial Samsung Smarttv controller and install it</li>
+  <li>Link to Alexa skill: <a href="https://www.amazon.com/dp/B07886XNK8">https://www.amazon.com/dp/B07886XNK8</a></li>
+  <li>Log in with your account, discover devices and you should be good to go</li>
+</ul>
+</p>

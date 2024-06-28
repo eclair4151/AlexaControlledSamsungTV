@@ -1,0 +1,83 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+.page-color {
+    background-color: #373B44;
+}
+
+.container-color {
+    background-color: #FFFFFF;
+}
+
+.navbar-color {
+    background-color: #E1B866;
+}
+
+.dark-color {
+    color: #373B44;
+}
+
+.highlight-color {
+    color: #BD5532
+}
+
+.accent-color {
+    color: #E1B866
+}
+
+.light-color{
+    color: #DEE1B6;
+}
+
+.base-color{
+    color: #73C8A9;
+}
+
+.vertical-center {
+    display: inline-block;
+    vertical-align:middle;
+    float:none;
+}
+
+.horizontal-center{
+    float:none;
+    margin:0 auto;
+}
+
+div .inner-yield{
+    padding: 0 30px 20px 30px;
+}
+
+#circle_red {
+      width: 10px;
+      height: 10px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      background: crimson;
+      display: inline-block;
+    }
+    
+    
+#circle_green {
+      width: 10px;
+      height: 10px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      background: green;
+      display: inline-block;
+    }
