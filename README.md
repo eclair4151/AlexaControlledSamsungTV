@@ -1,7 +1,18 @@
 # Amazon has stopped providing AWS credits to offset the cost of running Alexa Services. As such, this project has been deprecated/archived and servers shut down.
 ## The backend code and lambda calls have also been published to allow anyone to host this on thier own, but most of the code is outdated by now, and you can achieve the same result with Home Assistant.
 https://www.zdnet.com/article/amazon-plans-to-stop-giving-free-aws-credits-and-paying-developers-to-make-alexa-apps/
-<br /><br /><br /><br /><br /><br />
+<br><br>
+## High level instructions to acheive the same results via Home Assistant:
+Requires an Alexa device with Matter over wifi support (Most Alexa's 2016 and newer)
+
+## Steps
+1. Install [Home Assistant OS](https://www.home-assistant.io/installation/raspberrypi/) or Supervised on your Raspberry PI (needed to install the Matter Bridge add-on)
+2. Add a new device in home assistant, and connect your Samsung TV via the built in [Samsung Smart TV Intergration](https://www.home-assistant.io/integrations/samsungtv/)
+3. Install the [Matterbridge Add-on](https://github.com/Luligu/matterbridge-home-assistant-addon) in Home Assistant
+4. Configure Matterbridge to expose your Samsung TV's media_player entity in Home Assistant
+5. Use the Alexa app on your phone to add the Device via Matter
+
+<br /><br /><br /><br /><br />
      
 # Original documentation for this service is listed below
 # The instructions below will no longer work, as most of the code in the project is not set up to use a self hosted domain or lambda function. As such a fair amount of work would be needed to correctly link every thing back together if you actually wanted to self host this such as setting up AWS IoT cert permissions, redirecting all lambda calls and api references in the code to point to your own, etc. 
